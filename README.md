@@ -13,11 +13,11 @@ Currently does not include a user interface, but will be implementing one very s
 
 ## Demo
 
-Input Image/Video
-![Input Image](input.jpg)
+### Input Image/Video
+![Input Image/Video](input.jpg)
 
-Output Image
-![Output Image](output.jpg)
+### Output Image/Video
+![Output Image/Video](output.jpg)
 
 ## Installation
 
