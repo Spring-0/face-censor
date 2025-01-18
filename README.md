@@ -107,6 +107,6 @@ GPU General Public License - see LICENSE file for details.
 
 ## TODO
 
-- [ ] Add emoji face masking
+- [x] Add emoji face masking
 - [ ] Add GUI interface
 
