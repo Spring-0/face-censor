@@ -6,14 +6,14 @@ import cv2
 class TextCensor(CensoringMethod):
     def __init__(self,
                  text,
-                 font_path="arial.ttf",
+                 font="arial.ttf",
                  scale_factor=0.5,
                  text_color="white",
                  background_color=None,
                  draw_background=True):
         
         self.text = text
-        self.font_path = font_path
+        self.font_path = font
         self.scale_factor = scale_factor
         self.text_color = text_color
         self.background_color = background_color
