@@ -27,14 +27,14 @@ def main():
     
     # Using blur masking
     blur_censor = BlurCensor(
-        blur_factor=70 # The strength of the blur effect, defaults to 99 (which is max)
+        blur_factor=71 # The strength of the blur effect, defaults to 99
     )
     
     # Specify desired masking
-    processor = MediaProcessor(detector, text_censor)
+    processor = MediaProcessor(detector, blur_censor)
     
     # Process image
-    processor.process_image("assets/input.jpg", "assets/output_text.jpg")
+    processor.process_image("assets/input.jpg", "assets/output_blur.jpg")
     
     # Process video
     processor.process_video("assets/input.mp4", "assets/output.mp4")
