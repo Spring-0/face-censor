@@ -92,7 +92,7 @@ emoji_censor = EmojiCensor(
 #### Using Blur Masking
 ```python
 blur_censor = BlurCensor(
-    blur_factor=70 # The strength of the blur effect, defaults to 99 (which is max)
+    blur_factor=71 # The strength of the blur effect, defaults to 99
 )
 ```
 
