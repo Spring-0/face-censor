@@ -1,32 +1,25 @@
 import cv2
-from .base import CensoringMethod
+from .text import TextCensor
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 
-class EmojiCensor(CensoringMethod):
+class EmojiCensor(TextCensor):
     def __init__(self, emoji, font_path="seguiemj.ttf", scale_factor=1.0):
-        self.emoji = emoji
-        self.font_path = font_path
-        self.scale_factor = scale_factor
+        super().__init__(
+            text=emoji,
+            font_path=font_path,
+            scale_factor=scale_factor,
+            text_color=None,
+            draw_background=False
+        )
 
-    def apply(self, frame, bbox):
-        x1, y1, x2, y2 = bbox[:4]
+    def draw_overlay(self, draw, x, y, font):
+        draw.text(
+            xy=(x, y),
+            text=self.text,
+            anchor="mm",
+            font=font,
+            embedded_color=True
+        )
 
-        center_x = (x1 + x2) // 2
-        center_y = (y1 + y2) // 2
 
-        font_size = int(max(x2-x1, y2-y1) * self.scale_factor)
-
-        try:
-            font_app = ImageFont.truetype(self.font_path, font_size)
-        except OSError as e:
-            raise ValueError(f"Cannot open resource at {self.font_path}")
-
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        pil_frame = Image.fromarray(rgb_frame)
-
-        draw = ImageDraw.Draw(pil_frame)
-        draw.text(xy=(center_x, center_y), text=self.emoji, anchor="mm", font=font_app, embedded_color=True)
-
-        out_image = cv2.cvtColor(np.array(pil_frame), cv2.COLOR_RGB2BGR)
-        return out_image
