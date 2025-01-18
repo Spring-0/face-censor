@@ -8,16 +8,9 @@ Currently does not include a user interface, but will be implementing one very s
 
 - Face detection using YOLOv8
 - Support for both image and video processing
-- Modular censoring system (currently supports blur)
+- Modular censoring system
 - Trained on the WIDER FACE dataset via Roboflow
-
-## Demo
-
-### Input Image/Video
-![Input Image/Video](input.jpg)
-
-### Output Image/Video
-![Output Image/Video](output.jpg)
+- Multiple masking methods including: blur, emoji, and text (see [demo](#demo))
 
 ## Installation
 
@@ -38,14 +31,14 @@ source .venv/bin/activate  # On Windows, use: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create a `.env` file in the project root with your Roboflow API key:
+4. **Optional Step** only needed for custom training | Create a `.env` file in the project root with your Roboflow API key:
 ```
 ROBOFLOW_API_KEY=your_api_key_here
 ```
 
-## Training the Model
+## Training the Model - Optional
 
-The project uses the WIDER FACE dataset from Roboflow for training. To train the model:
+The project uses the WIDER FACE dataset from Roboflow for training. I have included a pre-trained model, so there is no need to re-train it unless you want to. Here is how:
 
 1. Update this line in `training/training.py` if required:
 ```python
@@ -61,15 +54,54 @@ python3 training.py
 ## Usage
 
 ```python
+# Face detection model
 from models.yolo_detector import YOLOFaceDetector
-from censoring.blur import BlurCensor
+
+# Masking methods (no need to import all, just what you want to use)
+from masking.text import TextCensor
+from masking.emoji import EmojiCensor
+from masking.blur import BlurCensor
+
+# Media processor
 from processor import MediaProcessor
 
-# Initialize components
+# Initialize face detector model
 detector = YOLOFaceDetector()
-censor = BlurCensor()
-processor = MediaProcessor(detector, censor)
 ```
+### Creating Masking Object
+This is what determines what effect will be applied to mask the faces.
+
+#### Using Text Masking
+```python
+text_censor = TextCensor(
+    text="HELLO", # The text to draw on faces
+    draw_background=True, # Control whether to draw solid background behind text
+    background_color="white", # The color of the solid background
+    text_color="black", # The color of the text
+    scale_factor=0.2 # The text size scaling factor, default to 0.5
+)
+```
+#### Using Emoji Masking
+```python
+emoji_censor = EmojiCensor(
+    emoji="😁", # The emoji you want to use to mask faces
+    font="seguiemj.ttf", # The path to the emoji font file, by default uses "seguiemj.ttf"
+    scale_factor=1.0 # The emoji size scaling factor in percentage, default to 1.0
+)
+```
+#### Using Blur Masking
+```python
+blur_censor = BlurCensor(
+    blur_factor=70 # The strength of the blur effect, defaults to 99 (which is max)
+)
+```
+
+### Create Media Processor
+After creating the masking method object(s), you need to pass it to the `MediaProcessor` constructor like so:
+```python
+processor = MediaProcessor(detector, blur_censor)
+```
+
 ### Processing Images
 ```python
 # Process an image
@@ -77,11 +109,25 @@ processor.process_image("input.jpg", "output.jpg")
 ```
 
 ### Processing Videos
-
 ```python
 # Process a video
 processor.process_video("input.mp4", "output.mp4")
 ```
+
+## Demo
+
+### Input Image/Video
+![Input Image/Video](assets/input.jpg)
+
+### Output Image/Video
+#### Blur Masking
+![Output Blur Image/Video](assets/output_blur.jpg)
+
+#### Emoji Masking
+![Output Emoji Image/Video](assets/output_emoji.jpg)
+
+#### Text Masking
+![Output Text Image/Video](assets/output_text.jpg)
 
 ## Requirements
 
@@ -107,6 +153,8 @@ GPU General Public License - see LICENSE file for details.
 
 ## TODO
 
-- [ ] Add emoji face masking
+- [x] Add emoji face masking
+- [ ] Add support for real time streams
 - [ ] Add GUI interface
+- [ ] Add partial face censoring (eyes)
 
