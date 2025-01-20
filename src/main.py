@@ -3,9 +3,15 @@ from masking.text import TextCensor
 from masking.emoji import EmojiCensor
 from masking.blur import BlurCensor
 
-from processor import MediaProcessor
+from processors.stream_processor import LiveStreamProcessor
+from processors.processor import MediaProcessor
+
+from dotenv import load_dotenv
+import os
 
 def main():
+    load_dotenv()
+    
     #Initialize detector
     detector = YOLOFaceDetector()
     
@@ -30,14 +36,24 @@ def main():
         blur_factor=71 # The strength of the blur effect, defaults to 99
     )
     
-    # Specify desired masking
-    processor = MediaProcessor(detector, blur_censor)
+    # Create batch media processor, specifying masking method and detector.
+    # processor = MediaProcessor(detector, blur_censor)
     
     # Process image
-    processor.process_image("assets/input.jpg", "assets/output_blur.jpg")
+    # processor.process_image("assets/input.jpg", "assets/output_blur.jpg")
     
     # Process video
-    processor.process_video("assets/input.mp4", "assets/output.mp4")
+    # processor.process_video("assets/input.mp4", "assets/output.mp4")
+    
+    # Create live stream processor, specifying masking method and detector.
+    live_processor = LiveStreamProcessor(detector, blur_censor)
+    
+    # Process RTMP stream.
+    live_processor.process_stream(
+        source="rtmp://localhost/live/livestream", # I used https://github.com/ossrs/srs for testing
+        output_type="rtmp",
+        output_dest=f"rtmp://jfk.contribute.live-video.net/app/{os.getenv('STREAM_KEY')}" # Tested on twitch
+    )
     
 if __name__ == "__main__":
     main()
