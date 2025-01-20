@@ -38,12 +38,8 @@ class LiveStreamProcessor:
                 
                 if output_type == "rtmp":
                     output.stdin.write(frame.tobytes())
-                elif output_type == "virtual_cam":
-                    pass
-                elif output_type == "pipe":
-                    pass
                 else:
-                    raise ValueError(f"Invalid output_type: {output_type}")
+                    raise ValueError(f"Invalid output_type: {output_type}, try 'rtmp'?")
                 
                 if preview_stream:
                     cv2.imshow("Stream Preview", frame)
@@ -57,6 +53,9 @@ class LiveStreamProcessor:
             cv2.destroyAllWindows()
     
     def initialize_output(self, output_type, output_dest, width, height, fps):
+        if output_dest == None: 
+            raise ValueError("output_dest cannot be None, provide valid output destination.")
+        
         if output_type == "rtmp":
             command = [
                 "ffmpeg",
@@ -73,20 +72,10 @@ class LiveStreamProcessor:
                 "-f", "flv",
                 output_dest  # RTMP URL
             ]
-            return subprocess.Popen(command, stdin=subprocess.PIPE)
-            
-        elif output_type == "virtual_cam":
-            pass
-        elif output_type == "pipe":
-            pass
-            
+            return subprocess.Popen(command, stdin=subprocess.PIPE)    
         return None
     
     def cleanup_output(self, output, output_type):
         if output_type == "rtmp":
             output.stdin.close()
             output.wait()
-        elif output_type == "virtual_cam":
-            pass
-        elif output_type == "pipe":
-            pass
