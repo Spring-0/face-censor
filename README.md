@@ -2,17 +2,16 @@
 
 A Python-based system for detecting faces in images and videos using YOLOv8, with the ability to censor detected faces. The system is designed to be modular and extensible.
 
-Currently does not include a user interface, but will be implementing one very soon.
-
 ## Features
 
 - Face detection using YOLOv8
 - Support for both image and video processing
+- Easy to use User Interface
 - Modular censoring system
 - Trained on the WIDER FACE dataset via Roboflow
 - Multiple masking methods including: blur, emoji, and text (see [demo](#demo))
 
-## Installation
+## Local Installation
 
 1. Clone the repository:
 ```bash
@@ -31,9 +30,9 @@ source .venv/bin/activate  # On Windows, use: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. **Optional Step** only needed for custom training | Create a `.env` file in the project root with your Roboflow API key:
-```
-ROBOFLOW_API_KEY=your_api_key_here
+4. Run:
+```bash
+python src/main.py
 ```
 
 ## Training the Model - Optional
@@ -45,14 +44,20 @@ The project uses the WIDER FACE dataset from Roboflow for training. I have inclu
 device="0"  # Set to "0" to utilize GPU, otherwise set to "cpu" to utilize CPU
 ```
 
-2. Run the training script:
+2. Create a `.env` file in the project root with your Roboflow API key:
+```bash
+ROBOFLOW_API_KEY=your_api_key_here
 ```
+
+3. Run the training script:
+```bash
 cd training
 python3 training.py
 ```
 
 ## Usage
 
+### API Usage
 ```python
 # Face detection model
 from models.yolo_detector import YOLOFaceDetector
