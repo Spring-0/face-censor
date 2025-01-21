@@ -6,3 +6,4 @@ src/yolov8n.pt
 src/data/raw
 .env
 .venv
+.gradio/

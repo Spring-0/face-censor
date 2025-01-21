@@ -155,6 +155,6 @@ GPU General Public License - see LICENSE file for details.
 
 - [x] Add emoji face masking
 - [ ] Add support for real time streams
-- [ ] Add GUI interface
+- [x] Add GUI interface
 - [ ] Add partial face censoring (eyes)
 
