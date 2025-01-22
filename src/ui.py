@@ -12,7 +12,7 @@ from processors.processor import MediaProcessor
 
 @dataclass
 class CensorSettings:
-    type
+    type: Optional[str] = None
     # Blur settings
     blur_factor: Optional[int] = None
     # Emoji settings
