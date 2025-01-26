@@ -1,3 +1,5 @@
+![Sync with HF Status](https://github.com/Spring-0/face-censor/actions/workflows/sync_to_hub.yml/badge.svg?branch=main)
+
 # Face Detection and Censoring System
 
 A Python-based system for detecting faces in images and videos using YOLOv8, with the ability to censor detected faces. The system is designed to be modular and extensible.
