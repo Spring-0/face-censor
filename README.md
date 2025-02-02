@@ -15,6 +15,20 @@ A Python-based system for detecting faces in images and videos using YOLOv8, wit
 
 ## Local Installation
 
+### With Docker 🐋
+1. Pull the image:
+```bash
+docker pull spring93/face-censor
+```
+
+2. Run:
+```bash
+docker run -p 3000:7860 -it --gpus all spring93/face-censor
+```
+
+3. Navigate to `http://localhost:3000` from your browser.
+
+### Without Docker
 1. Clone the repository:
 ```bash
 git clone https://github.com/Spring-0/face-censor.git

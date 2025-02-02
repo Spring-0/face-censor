@@ -58,4 +58,4 @@ from ui import FaceCensorUI
 if __name__ == "__main__":
     ui = FaceCensorUI()
     interface = ui.create_ui()
-    interface.launch(pwa=True)
+    interface.launch(pwa=True, server_name="0.0.0.0")

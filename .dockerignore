@@ -1,0 +1,5 @@
+src/runs
+src/training
+**/__pycache__
+*.pyc
+*.pyo
